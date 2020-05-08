@@ -5,7 +5,6 @@ import java.util.*;
 class Rat {
     String name;
     boolean charged = false;
-    boolean choiceActive = false;
     int str;
     int spd;
 
@@ -14,6 +13,7 @@ class Rat {
     JTextField text;
     JFrame ratFrame;
     ImagePanel image;
+    ImagePanel2 noBattery;
     JLabel nametag;
     JLabel message;
     JPanel actionPanel;
@@ -32,8 +32,7 @@ class Rat {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            if(!choiceActive){
-                choiceActive = true;
+            if(charged){
                 if(actions.getSelection().getActionCommand().equals("1")) {
                     gatherWood();
                 }
@@ -43,9 +42,8 @@ class Rat {
                 if(actions.getSelection().getActionCommand().equals("3")) {
                     hunt();
                 }
-            }
+            } else {System.out.println(name + " is out of batteries for the day.");}
             ratFrame.dispose();
-            choiceActive = false;
         }
     }
 
@@ -87,10 +85,12 @@ class Rat {
         three.addActionListener(new chooseAction());
         ratFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         image = new ImagePanel();
+        noBattery = new ImagePanel2();
         nametag = new JLabel(name);
-        message = new JLabel();
         ratFrame.add(BorderLayout.NORTH, nametag);
-        ratFrame.add(BorderLayout.CENTER, image);
+        if(charged){
+            ratFrame.add(BorderLayout.CENTER, image);
+        }else{ratFrame.add(BorderLayout.CENTER, noBattery);}
         ratFrame.add(BorderLayout.EAST, actionPanel);
         ratFrame.setSize(image.yosh.getIconWidth()+375,image.yosh.getIconHeight()+50);
         ratFrame.setVisible(true);
