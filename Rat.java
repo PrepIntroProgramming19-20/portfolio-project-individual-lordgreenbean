@@ -71,7 +71,7 @@ class Rat {
         ratFrame = new JFrame();
         JRadioButton one = new JRadioButton("Gather wood. (Strength="+str+")");
         one.setActionCommand("1");
-        JRadioButton two = new JRadioButton("Gather stone. (Strength="+str+")");
+        JRadioButton two = new JRadioButton("Mine jewels. (Strength="+str+")");
         two.setActionCommand("2");
         JRadioButton three = new JRadioButton("Hunt for food. (Speed="+spd+")");
         three.setActionCommand("3");
@@ -111,13 +111,15 @@ class Rat {
 
     void gatherStone() {
         int yield=(2*str)+(int)(3*Math.random()*str);
-        System.out.println(message(yield, "stone"));
+        System.out.println(message(yield, "jewels"));
         Basement.rocks=Basement.rocks+yield;
+        Basement.updateFire();
     }
 
     void hunt() {
         int yield=(2*spd)+(int)(Math.random()*spd);
         System.out.println(message(yield, "food"));
         Basement.food=Basement.food+yield;
+        Basement.updateFire();
     }
 }
