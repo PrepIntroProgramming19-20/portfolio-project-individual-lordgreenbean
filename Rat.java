@@ -24,7 +24,8 @@ class Rat {
         public void actionPerformed(ActionEvent event) {
             name = text.getText();
             ratFrame.dispose();
-            ratAction();
+            System.out.println("The Village of Rat accepts "+name+".");
+            Basement.totRat++;
         }
     }
 
@@ -35,12 +36,15 @@ class Rat {
             if(charged){
                 if(actions.getSelection().getActionCommand().equals("1")) {
                     gatherWood();
+                    charged = false;
                 }
                 if(actions.getSelection().getActionCommand().equals("2")) {
                     gatherStone();
+                    charged = false;
                 }
                 if(actions.getSelection().getActionCommand().equals("3")) {
                     hunt();
+                    charged = false;
                 }
             } else {System.out.println(name + " is out of batteries for the day.");}
             ratFrame.dispose();
@@ -48,10 +52,10 @@ class Rat {
     }
 
     public Rat() {
+        charged = false;
         str = 1+(int)(tech*Math.random());
         spd = 1+(tech-str);
         ratFrame = new JFrame();
-        ratFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         text = new JTextField("Precious One");
         text.addActionListener(new nameRat());
         ratFrame.add(BorderLayout.CENTER, text);
@@ -63,7 +67,7 @@ class Rat {
     }
 
     void ratAction() {
-        charged = false;
+        
         ratFrame = new JFrame();
         JRadioButton one = new JRadioButton("Gather wood. (Strength="+str+")");
         one.setActionCommand("1");
@@ -83,7 +87,6 @@ class Rat {
         one.addActionListener(new chooseAction());
         two.addActionListener(new chooseAction());
         three.addActionListener(new chooseAction());
-        ratFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         image = new ImagePanel();
         noBattery = new ImagePanel2();
         nametag = new JLabel(name);
