@@ -21,11 +21,17 @@ class Shopkeep {
     static class bookChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-            if(gold>=bookPrice) {
+            if(bookStock<1){
+                System.out.println("'I have no books for you today.'");
+                System.out.println("'What's this one I'm holding?'");
+                System.out.println("'You cannot look at this book, small child.'");
+            } else if(gold>=bookPrice) {
                 gold=gold-bookPrice;
                 Basement.books++;
+                Rat.tech++;
                 System.out.println("'Thank you kindly.'");
                 System.out.println("+1 Book.");
+                bookStock--;
             } else {System.out.println("'You can't affort that.'");}
             shopFrame.dispose();
         }
@@ -35,9 +41,9 @@ class Shopkeep {
         public void actionPerformed(ActionEvent event) {
             if(gold>=keyPrice&&Basement.totRat>=13) {
                 gold = gold-keyPrice;
-                for(int i=Basement.rats.size()-1;i>Basement.rats.size()-15;i--) {
-                    System.out.println("The shopkeeper takes "+Basement.rats.get(i).name+".");
-                    Basement.rats.remove(i);
+                for(int i=0;i<13;i++) {
+                    System.out.println("The shopkeeper takes "+Basement.rats.get(0).name+".");
+                    Basement.rats.remove(0);
                     Basement.totRat--;
                 }
                 Basement.hasKey=true;
@@ -74,6 +80,7 @@ class Shopkeep {
             System.out.println("'Ugnhhhh... What beautiful jewels...'");
             sellingFrame.dispose();
             shopFrame.dispose();
+            cartVolume = 0;
         }
     }
     static class jewelChoose implements ActionListener {
@@ -95,7 +102,7 @@ class Shopkeep {
             sellingFrame.add(BorderLayout.WEST, less);
             sellingFrame.add(BorderLayout.EAST, more);
             sellingFrame.add(BorderLayout.SOUTH, confirmPurchase);
-            sellingFrame.setSize(500,100);
+            sellingFrame.setSize(300,100);
             sellingFrame.setVisible(true);
         }
     }

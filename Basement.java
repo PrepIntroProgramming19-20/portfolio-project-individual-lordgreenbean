@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.awt.*;
 import java.util.*;
 class Basement {
-    String userName;
     static int userEnergy = 3;
     static int maxEnergy = 3;
     static int brain = 2;
@@ -22,13 +21,28 @@ class Basement {
     public static int rocks=0;
     public static int wood=15;
     public static int food = 20;
-    public static int ratCap;
     public static int totRat=0;
     public static int books=0;
     public static int fireHeight=36;
     
     public static boolean hasKey = false;
+    public static boolean stopTheGameWhenItIsOver = true;
 
+    public Basement() {
+    userEnergy = 3;
+    maxEnergy = 3;
+    brain = 2;
+    research = 0;
+    days=0;
+    rocks=0;
+    wood=15;
+    food = 20;
+    totRat=0;
+    books=0;
+    fireHeight=36;
+    hasKey = false;
+    stopTheGameWhenItIsOver = true;
+    }
 
     class chooseAction implements ActionListener {
 
@@ -103,6 +117,15 @@ class Basement {
             System.out.println(rockLoss+" jewels have disappeared from the storehouse.");
             System.out.println(woodLoss+" wood bured to keep the fire going.");
             System.out.println("You've survived another day in the basement.");
+            System.out.println("   ~~INVENTORY~~");
+            System.out.println("Day: "+days);
+            System.out.println("Fire: "+(int)(100*fireHeight/40)+"%");
+            System.out.println("Wood: "+wood);
+            System.out.println("Jewels: "+rocks);
+            System.out.println("Rations: "+food);
+            System.out.println("Books: "+books);
+            System.out.println("Schematics: "+research);
+            System.out.println("Gold Coind: "+Shopkeep.gold);
         } else if (totRat>0){
             System.out.println("Uh oh... It's feeding time and we're out of rations.");
             System.out.println("Well, you know what that means.");
@@ -116,15 +139,7 @@ class Basement {
             System.out.println("You are dead.");
             menuFrame.dispose();
         }
-        System.out.println("   ~~INVENTORY~~");
-            System.out.println("Day: "+days);
-            System.out.println("Fire: "+(int)(100*fireHeight/40)+"%");
-            System.out.println("Wood: "+wood);
-            System.out.println("Jewels: "+rocks);
-            System.out.println("Rations: "+food);
-            System.out.println("Books: "+books);
-            System.out.println("Schematics: "+research);
-            System.out.println("Gold Coind: "+Shopkeep.gold);
+        
         Shopkeep.restock();
     }
 
@@ -133,9 +148,11 @@ class Basement {
         System.out.println("Fire: "+(int)(100*fireHeight/40)+"%");
     }
     
+    
+    
     class autoCheckFire implements ActionListener {
         public void actionPerformed (ActionEvent event) {
-            if(fireHeight<1) {
+            if(fireHeight<1&&stopTheGameWhenItIsOver) {
                 System.out.println("");
                 System.out.println("");
                 System.out.println("");
@@ -145,8 +162,9 @@ class Basement {
             System.out.println("You hear whispers. Getting closer.");
             System.out.println("You are dead.");
             menuFrame.dispose();
+            stopTheGameWhenItIsOver=false;
         }
-        if (hasKey) {
+        if (hasKey&&stopTheGameWhenItIsOver) {
             System.out.println("");
             System.out.println("");
             System.out.println("");
@@ -162,6 +180,7 @@ class Basement {
             System.out.println("All of that is behind you.");
             System.out.println("You escaped the basement.");
             menuFrame.dispose();
+            stopTheGameWhenItIsOver=false;
         }
     }
 }

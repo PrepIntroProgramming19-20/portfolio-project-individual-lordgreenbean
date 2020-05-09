@@ -65,6 +65,15 @@ class Rat {
         ratFrame.setSize(300,100);
         ratFrame.setVisible(true);
     }
+    //used for testing purposes only.
+    public Rat(String nomen) {
+        charged = false;
+        str = 1+(int)(tech*Math.random());
+        spd = 1+(tech-str);
+        name=nomen;
+        System.out.println("The Village of Rat accepts "+name+".");
+        Basement.totRat++;
+    }
 
     void ratAction() {
         
