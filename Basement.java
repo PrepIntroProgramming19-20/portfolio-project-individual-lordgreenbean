@@ -79,8 +79,8 @@ class Basement {
         userFrame.setVisible(true);
     }
 
-    ArrayList<Rat> rats = new ArrayList<Rat>();
-    JList<Rat> army;
+    static ArrayList<Rat> rats = new ArrayList<Rat>();
+    
     void advanceTime() {
         for(Rat c: rats) {
             c.charged = true;
@@ -93,7 +93,7 @@ class Basement {
         if(woodLoss>wood){woodLoss=wood;}
         rocks = rocks-rockLoss;
         wood = wood-woodLoss;
-
+        Shopkeep.restock();
         if(food>=0) {
             System.out.println("There's light coming from the ceiling cracks.");
             System.out.println("It must be morning.");
@@ -216,7 +216,7 @@ class Basement {
         menuFrame = new JFrame();
         JButton workshopButton = new JButton("Your Workshop.");
         JButton villageButton = new JButton("The Villiage of Rat.");
-        JButton shopButton = new JButton("The Mumbling Shopkeeper.");
+        JButton shopButton = new JButton("The Shopkeeper's Hut.");
         actionPanel = new JPanel();
         actionPanel.setLayout(new BorderLayout());
         actionPanel.add(BorderLayout.NORTH,workshopButton);
