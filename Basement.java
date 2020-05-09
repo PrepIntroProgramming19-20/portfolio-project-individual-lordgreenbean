@@ -137,11 +137,30 @@ class Basement {
         public void actionPerformed (ActionEvent event) {
             if(fireHeight<1) {
                 System.out.println("");
+                System.out.println("");
+                System.out.println("");
             System.out.println("The fire went out.");
             System.out.println("It's dark.");
             System.out.println("You are scared.");
             System.out.println("You hear whispers. Getting closer.");
             System.out.println("You are dead.");
+            menuFrame.dispose();
+        }
+        if (hasKey) {
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("So you did it.");
+            System.out.println("You sold your rats.");
+            System.out.println("All for a key to go outside?");
+            System.out.println("You don't remember what outside is anymore.");
+            System.out.println("Did your friends mean so little to you?");
+            System.out.println("Well, I'm sure they'd understand.");
+            System.out.println("It's not like they wanna stay in this basement");
+            System.out.println("with that creepy shopkeeper any more than you did.");
+            System.out.println("But that doesn't matter.");
+            System.out.println("All of that is behind you.");
+            System.out.println("You escaped the basement.");
             menuFrame.dispose();
         }
     }

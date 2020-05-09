@@ -11,7 +11,7 @@ class Shopkeep {
     static int keyPrice = 850;
     static int gold = 0;
     static int cartVolume = 0;
-    static JLabel cartLabel = new JLabel("-"+cartVolume+"-");
+    static JLabel cartLabel = new JLabel("        -"+cartVolume+"-");
 
     static JFrame shopFrame;
     static JFrame sellingFrame;
@@ -35,8 +35,10 @@ class Shopkeep {
         public void actionPerformed(ActionEvent event) {
             if(gold>=keyPrice&&Basement.totRat>=13) {
                 gold = gold-keyPrice;
-                for(int i=Basement.rats.size()-14;i<Basement.rats.size();i++) {
+                for(int i=Basement.rats.size()-1;i>Basement.rats.size()-15;i--) {
+                    System.out.println("The shopkeeper takes "+Basement.rats.get(i).name+".");
                     Basement.rats.remove(i);
+                    Basement.totRat--;
                 }
                 Basement.hasKey=true;
                 System.out.println("'...'");
@@ -52,7 +54,7 @@ class Shopkeep {
         public void actionPerformed(ActionEvent event) {
             cartVolume++;
             if(cartVolume>Basement.rocks){cartVolume=0;}
-            cartLabel.setText("-"+cartVolume+"-");
+            cartLabel.setText("        -"+cartVolume+"-");
         }
     }
     static class cartDecrease implements ActionListener {
@@ -60,7 +62,7 @@ class Shopkeep {
         public void actionPerformed(ActionEvent event) {
             cartVolume--;
             if(cartVolume<0){cartVolume=Basement.rocks;}
-            cartLabel.setText("-"+cartVolume+"-");
+            cartLabel.setText("        -"+cartVolume+"-");
         }
     }
     static class confirm implements ActionListener {
@@ -78,7 +80,7 @@ class Shopkeep {
         @Override
         public void actionPerformed(ActionEvent event) {
             sellingFrame = new JFrame();
-            JLabel prompt = new JLabel("'...How many can I have?'");
+            JLabel prompt = new JLabel("        '...How many can I have?'");
             sellingFrame.add(BorderLayout.NORTH,prompt);
 
             JButton more = new JButton(">");
@@ -126,12 +128,14 @@ class Shopkeep {
     }
 
     static void restock() {
-        if((20*Math.random())>7) {
+        if((20*Math.random())>10.5) {
             present = true;
             bookStock = (int)(3*Math.random());
             bookPrice = 80+(int)(80*Math.random());
             jewelPrice = 1+(int)(15*Math.random());
             System.out.println("    ! There's a scratching sound coming from the old hut.");
+        } else {
+            present = false;
         }
     }
 }
