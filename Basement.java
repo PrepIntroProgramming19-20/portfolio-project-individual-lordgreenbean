@@ -132,7 +132,7 @@ class Basement {
             System.out.println("Rations: "+food);
             System.out.println("Books: "+books);
             System.out.println("Schematics: "+research);
-            System.out.println("Gold Coind: "+Shopkeep.gold);
+            System.out.println("Gold Coins: "+Shopkeep.gold);
         } else if (totRat>0){
             System.out.println("Uh oh... It's feeding time and we're out of rations.");
             System.out.println("Well, you know what that means.");
@@ -258,7 +258,7 @@ class Basement {
             System.out.println("Rations: "+food);
             System.out.println("Books: "+books);
             System.out.println("Schematics: "+research);
-            System.out.println("Gold Coind: "+Shopkeep.gold);
+            System.out.println("Gold Coins: "+Shopkeep.gold);
         }
     }
     //takes five wood to restore the fire by a random amount.
