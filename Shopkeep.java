@@ -8,14 +8,14 @@ class Shopkeep {
     static int bookStock = 0;
     static int bookPrice = 0;
     static int jewelPrice = 0;
-    static int keyPrice = 1000000;
+    static int keyPrice = 850;
     static int gold = 0;
     static int cartVolume = 0;
     static JLabel cartLabel = new JLabel("-"+cartVolume+"-");
 
     static JFrame shopFrame;
     static JFrame sellingFrame;
-    static JLabel name=new JLabel("Astor Sibellius Shoppithan III");
+    static JLabel name=new JLabel("      Astor Sibellius Shoppithan III");
     static JPanel options;
 
     static class bookChoose implements ActionListener {
@@ -92,7 +92,8 @@ class Shopkeep {
             sellingFrame.add(BorderLayout.CENTER, cartLabel);
             sellingFrame.add(BorderLayout.WEST, less);
             sellingFrame.add(BorderLayout.EAST, more);
-            sellingFrame.setSize(300,100);
+            sellingFrame.add(BorderLayout.SOUTH, confirmPurchase);
+            sellingFrame.setSize(500,100);
             sellingFrame.setVisible(true);
         }
     }
@@ -112,25 +113,25 @@ class Shopkeep {
             options.add(BorderLayout.NORTH,buyBook);
             options.add(BorderLayout.CENTER,buyKey);
             options.add(BorderLayout.SOUTH,sellRocks);
-            shopFrame.add(BorderLayout.NORTH, new JLabel("'What are you buying?' (Gold: "+gold+")"));
+            shopFrame.add(BorderLayout.NORTH, new JLabel("     'What are you buying?' (Gold: "+gold+")"));
             shopFrame.add(BorderLayout.CENTER, image);
             shopFrame.add(BorderLayout.SOUTH, name);
             shopFrame.add(BorderLayout.EAST, options);
             shopFrame.setSize(image.nobosh.getIconWidth()+375,image.nobosh.getIconHeight()+50);
         } else {
             shopFrame.add(BorderLayout.NORTH,new JLabel("It seems like there's nobody here."));
-            shopFrame.setSize(150,100);
+            shopFrame.setSize(500,100);
         }
         shopFrame.setVisible(true);
     }
 
     static void restock() {
-        if((20*Math.random())>13) {
+        if((20*Math.random())>7) {
             present = true;
             bookStock = (int)(3*Math.random());
-            bookPrice = 80+(int)(100*Math.random());
+            bookPrice = 80+(int)(80*Math.random());
             jewelPrice = 1+(int)(15*Math.random());
-            System.out.println("There's a scratching sound coming from the old hut.");
+            System.out.println("    ! There's a scratching sound coming from the old hut.");
         }
     }
 }

@@ -54,7 +54,7 @@ class Basement {
         userFrame = new JFrame();
         JRadioButton one = new JRadioButton("Research. (Intelligence="+brain+")");
         one.setActionCommand("1");
-        JRadioButton two = new JRadioButton("Expand Brain. (Books="+0+"/1)");
+        JRadioButton two = new JRadioButton("Expand Brain. (Books="+books+"/1)");
         two.setActionCommand("2");
         JRadioButton three = new JRadioButton("Build Rat. (Schematics="+research+"/8)");
         three.setActionCommand("3");
@@ -71,7 +71,7 @@ class Basement {
         two.addActionListener(new chooseAction());
         three.addActionListener(new chooseAction());
         image = new ImageGuyPanel();
-        nametag = new JLabel("You: The Small Child");
+        nametag = new JLabel("You: The Small Child (Energy: "+userEnergy+")");
         userFrame.add(BorderLayout.NORTH, nametag);
         userFrame.add(BorderLayout.CENTER, image);
         userFrame.add(BorderLayout.EAST, actionPanel);
@@ -93,7 +93,9 @@ class Basement {
         if(woodLoss>wood){woodLoss=wood;}
         rocks = rocks-rockLoss;
         wood = wood-woodLoss;
-        Shopkeep.restock();
+        System.out.println("");
+        System.out.println("");
+        System.out.println("");
         if(food>=0) {
             System.out.println("There's light coming from the ceiling cracks.");
             System.out.println("It must be morning.");
@@ -114,6 +116,16 @@ class Basement {
             System.out.println("You are dead.");
             menuFrame.dispose();
         }
+        System.out.println("   ~~INVENTORY~~");
+            System.out.println("Day: "+days);
+            System.out.println("Fire: "+(int)(100*fireHeight/40)+"%");
+            System.out.println("Wood: "+wood);
+            System.out.println("Jewels: "+rocks);
+            System.out.println("Rations: "+food);
+            System.out.println("Books: "+books);
+            System.out.println("Schematics: "+research);
+            System.out.println("Gold Coind: "+Shopkeep.gold);
+        Shopkeep.restock();
     }
 
     static void updateFire() {
@@ -124,6 +136,7 @@ class Basement {
     class autoCheckFire implements ActionListener {
         public void actionPerformed (ActionEvent event) {
             if(fireHeight<1) {
+                System.out.println("");
             System.out.println("The fire went out.");
             System.out.println("It's dark.");
             System.out.println("You are scared.");
@@ -182,7 +195,7 @@ class Basement {
     class inventoryChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-
+            System.out.println("   ~~INVENTORY~~");
             System.out.println("Day: "+days);
             System.out.println("Fire: "+(int)(100*fireHeight/40)+"%");
             System.out.println("Wood: "+wood);
@@ -190,12 +203,13 @@ class Basement {
             System.out.println("Rations: "+food);
             System.out.println("Books: "+books);
             System.out.println("Schematics: "+research);
+            System.out.println("Gold Coind: "+Shopkeep.gold);
         }
     }
     class feedFire implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
-            if(wood>5){
+            if(wood>=5){
                 System.out.println("-5 wood.");
                 wood = wood-5;
                 fireHeight=fireHeight+(int)(6+(6*Math.random()));
