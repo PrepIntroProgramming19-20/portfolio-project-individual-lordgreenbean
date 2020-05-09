@@ -1,6 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-
+//shopkeeper image panel.
 public class ImageShop extends JPanel
 {
     String fileName = "shop.png";

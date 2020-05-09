@@ -1,6 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-
+//The image panel for the rat with no batteries.
 public class ImagePanel2 extends JPanel
 {
     String fileName = "noBat.png";

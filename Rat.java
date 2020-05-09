@@ -7,7 +7,7 @@ class Rat {
     boolean charged = false;
     int str;
     int spd;
-
+    //tech is like how high their stats can go.
     static int tech = 4;
 
     JTextField text;
@@ -19,6 +19,7 @@ class Rat {
     JPanel actionPanel;
     ButtonGroup actions;
 
+    //The class for naming a rat.
     class nameRat implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -28,7 +29,7 @@ class Rat {
             Basement.totRat++;
         }
     }
-
+    //The listener for the buttons for deciding what task the rat should do.
     class chooseAction implements ActionListener {
 
         @Override
@@ -50,7 +51,7 @@ class Rat {
             ratFrame.dispose();
         }
     }
-
+    //Blank constructor for rat, brings up a GUI where the user can enter a name.
     public Rat() {
         charged = false;
         str = 1+(int)(tech*Math.random());
@@ -74,9 +75,9 @@ class Rat {
         System.out.println("The Village of Rat accepts "+name+".");
         Basement.totRat++;
     }
-
+    //This is the GUI that comes up when you choose a rat.
     void ratAction() {
-        
+
         ratFrame = new JFrame();
         JRadioButton one = new JRadioButton("Gather wood. (Strength="+str+")");
         one.setActionCommand("1");
@@ -107,15 +108,17 @@ class Rat {
         ratFrame.setSize(image.yosh.getIconWidth()+375,image.yosh.getIconHeight()+50);
         ratFrame.setVisible(true);
     }
-
+    //This tells you how much of which resources the rats come back with,
     String message(int number, String units) {
         return (name+" has returned with "+number+" "+units+".");
     }
-
+    //These three are the tasks that the rat can perform.
     void gatherWood() {
         int yield=(2*str)+(int)(3*Math.random()*str);
         System.out.println(message(yield, "wood"));
         Basement.wood=Basement.wood+yield;
+        //This one doesn't update fire because killing somebody because their
+        //   fire goes out while they're getting wood for it just seems mean.
     }
 
     void gatherStone() {

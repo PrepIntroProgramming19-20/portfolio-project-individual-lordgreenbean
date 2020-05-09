@@ -8,6 +8,7 @@ class Basement {
     static int maxEnergy = 3;
     static int brain = 2;
     static int research = 0;
+    //declaring these early so I don't run into null pointers.
     ButtonGroup actions;
     ButtonGroup dayActions;
     JPanel actionPanel;
@@ -24,26 +25,28 @@ class Basement {
     public static int totRat=0;
     public static int books=0;
     public static int fireHeight=36;
-    
+
     public static boolean hasKey = false;
+    //This is so you don't get in an endless loop at the very end.
     public static boolean stopTheGameWhenItIsOver = true;
 
+    //This constructor isn't really necessary but I dunno it's nice to have.
     public Basement() {
-    userEnergy = 3;
-    maxEnergy = 3;
-    brain = 2;
-    research = 0;
-    days=0;
-    rocks=0;
-    wood=15;
-    food = 20;
-    totRat=0;
-    books=0;
-    fireHeight=36;
-    hasKey = false;
-    stopTheGameWhenItIsOver = true;
+        userEnergy = 3;
+        maxEnergy = 3;
+        brain = 2;
+        research = 0;
+        days=0;
+        rocks=0;
+        wood=15;
+        food = 20;
+        totRat=0;
+        books=0;
+        fireHeight=36;
+        hasKey = false;
+        stopTheGameWhenItIsOver = true;
     }
-
+    //This is for the radio buttons for choosing what the child is going to do.
     class chooseAction implements ActionListener {
 
         @Override
@@ -59,11 +62,12 @@ class Basement {
                     buildRat();
                 }
             } else {System.out.println("You're too tired. You just wanna go to bed.");}
+            //The fire goes down after all the boy's actions.
             updateFire();
             userFrame.dispose();
         }
     }
-
+    //The GUI that comes up when you decide to perform an action as the boy.
     void userAction() {
         userFrame = new JFrame();
         JRadioButton one = new JRadioButton("Research. (Intelligence="+brain+")");
@@ -92,9 +96,10 @@ class Basement {
         userFrame.setSize(image.nobosh.getIconWidth()+375,image.nobosh.getIconHeight()+50);
         userFrame.setVisible(true);
     }
-
+    //I don't know why this is so low in the code, really.
     static ArrayList<Rat> rats = new ArrayList<Rat>();
-    
+    //This is the command to reset all of the intra-day stats like energy
+    //And the shopkeeper's stuff. Also there's some movement in your resources.
     void advanceTime() {
         for(Rat c: rats) {
             c.charged = true;
@@ -110,6 +115,8 @@ class Basement {
         System.out.println("");
         System.out.println("");
         System.out.println("");
+        //These are all the ways a day can end: normally and then a bunch where
+        //you die because of no food.
         if(food>=0) {
             System.out.println("There's light coming from the ceiling cracks.");
             System.out.println("It must be morning.");
@@ -139,59 +146,63 @@ class Basement {
             System.out.println("You are dead.");
             menuFrame.dispose();
         }
-        
+
         Shopkeep.restock();
     }
-
+    //This is the method to make the fire gradually go down.
+    //(makes wood a resource you need to think about.)
     static void updateFire() {
         fireHeight = fireHeight-(int)(3+(4*Math.random()));
         System.out.println("Fire: "+(int)(100*fireHeight/40)+"%");
     }
-    
-    
-    
+
+    //So this is a timer that's used both to check if the fire goes out and
+    //to check if the user has the key at the very end of the game.
+    //In one of these scenarios the user dies, in the other one he comes
+    // out of the basement.
     class autoCheckFire implements ActionListener {
         public void actionPerformed (ActionEvent event) {
             if(fireHeight<1&&stopTheGameWhenItIsOver) {
                 System.out.println("");
                 System.out.println("");
                 System.out.println("");
-            System.out.println("The fire went out.");
-            System.out.println("It's dark.");
-            System.out.println("You are scared.");
-            System.out.println("You hear whispers. Getting closer.");
-            System.out.println("You are dead.");
-            menuFrame.dispose();
-            stopTheGameWhenItIsOver=false;
-        }
-        if (hasKey&&stopTheGameWhenItIsOver) {
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
-            System.out.println("So you did it.");
-            System.out.println("You sold your rats.");
-            System.out.println("All for a key to go outside?");
-            System.out.println("You don't remember what outside is anymore.");
-            System.out.println("Did your friends mean so little to you?");
-            System.out.println("Well, I'm sure they'd understand.");
-            System.out.println("It's not like they wanna stay in this basement");
-            System.out.println("with that creepy shopkeeper any more than you did.");
-            System.out.println("But that doesn't matter.");
-            System.out.println("All of that is behind you.");
-            System.out.println("You escaped the basement.");
-            menuFrame.dispose();
-            stopTheGameWhenItIsOver=false;
+                System.out.println("The fire went out.");
+                System.out.println("It's dark.");
+                System.out.println("You are scared.");
+                System.out.println("You hear whispers. Getting closer.");
+                System.out.println("You are dead.");
+                menuFrame.dispose();
+                stopTheGameWhenItIsOver=false;
+            }
+            if (hasKey&&stopTheGameWhenItIsOver) {
+                System.out.println("");
+                System.out.println("");
+                System.out.println("");
+                System.out.println("So you did it.");
+                System.out.println("You sold your rats.");
+                System.out.println("All for a key to go outside?");
+                System.out.println("You don't remember what outside is anymore.");
+                System.out.println("Did your friends mean so little to you?");
+                System.out.println("Well, I'm sure they'd understand.");
+                System.out.println("It's not like they wanna stay in this basement");
+                System.out.println("with that creepy shopkeeper any more than you did.");
+                System.out.println("But that doesn't matter.");
+                System.out.println("All of that is behind you.");
+                System.out.println("You escaped the basement.");
+                menuFrame.dispose();
+                stopTheGameWhenItIsOver=false;
+            }
         }
     }
-}
-    
+    //This is how the user gets the schematics which are used to create rats.
     void doResearch() {
         userEnergy--;
         int yield=(brain)+(int)(2*Math.random()*brain);
         System.out.println("Your research yielded "+yield+" schematics.");
         Basement.research=Basement.research+yield;
     }
-
+    //This both boosts the rate at which the player can generate schematics
+    //for rats and raises the maximum stats of the new rats themselves.
     void read() {
         if(books>0) {
             userEnergy--;
@@ -199,9 +210,11 @@ class Basement {
             System.out.println("You read one of the shopkeeper's books.");
             System.out.println("Your mind fills with heretical ideas.");
             books--;
+            Rat.tech++;
         } else {System.out.println("You have no books to read.");}
     }
-
+    //Birth a rat. Pretty self explanatory, really. How does the kid do it?
+    //Uhhh....... I'm sure it's an important lore thing that I shouldn't give away.
     void buildRat() {
         if(research>7) {
             userEnergy--;
@@ -211,6 +224,10 @@ class Basement {
     }
 
     JFrame menuFrame;
+    
+    //These three classes correspond to the left buttons on the menu GUI.
+    //They bring up the user/workshop GUI, the rat GUI, and the shopkeeper GUI,
+    //respectively.
     class workshopChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -229,7 +246,7 @@ class Basement {
             Shopkeep.shop();
         }
     }
-
+    //Just displays what you have in your inventory, nothing so special.
     class inventoryChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -244,6 +261,7 @@ class Basement {
             System.out.println("Gold Coind: "+Shopkeep.gold);
         }
     }
+    //takes five wood to restore the fire by a random amount.
     class feedFire implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -256,6 +274,7 @@ class Basement {
             } else {System.out.println("You don't have enough wood.");}
         }
     }
+    //The listener for the "done for the day" button.
     class dayChoose implements ActionListener {
 
         @Override
@@ -263,7 +282,9 @@ class Basement {
             advanceTime();
         }
     }
-
+    //this is the centeral hub of the game. The buttons on the left panel
+    // will bring up GUIs that you can interact with to perform tasks, while
+    // the buttons on the left will perform functions in the console.
     public void menu() {
         menuFrame = new JFrame();
         JButton workshopButton = new JButton("Your Workshop.");
@@ -296,31 +317,41 @@ class Basement {
         menuFrame.add(BorderLayout.EAST, dayPanel);
         menuFrame.setSize(375,150);
         menuFrame.setVisible(true);
-        
+
         javax.swing.Timer fireTimer = new javax.swing.Timer(2, new autoCheckFire());
         fireTimer.start();
     }
 
     JList<String> yourRats;
     JFrame villageFrame;
-
+    //So you shouldn't name rats the same thing because this goes through
+    //the list in order until it gets to the one with THE NAME you selected,
+    //which will not necessarily be the rat that you selected, if you have
+    //multiple with the same name. Put simply, if you have two rats with the
+    //same name you'll never be able to choose the later of the two.
     class selectRat implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent le) {
             for(Rat c: rats) {
-                if (c.name.equals(yourRats.getSelectedValue())) {
+                //also don't name your rat " (asleep)".
+                if (c.name.equals(yourRats.getSelectedValue().replace(" (asleep)",""))) {
                     c.ratAction();
                     villageFrame.dispose();
                 }
             }
         }
     }
-
+    //Shows all of the rats that you have available.
     void ratVillage() {
         JLabel prompt = new JLabel("The Village of Rat. Population: "+totRat);
         villageFrame = new JFrame();
         String[] ratNames = new String[rats.size()];
+        //lets you know if the rats have battery.
         for(int i=0;i<rats.size();i++) {
-            ratNames[i]=rats.get(i).name;
+            if(rats.get(i).charged) {
+                ratNames[i]=rats.get(i).name;
+            } else {
+                ratNames[i]=rats.get(i).name+" (asleep)";
+            }
         }
         yourRats = new JList<String>(ratNames);
         yourRats.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -331,7 +362,7 @@ class Basement {
         villageFrame.setSize(375,150);
         villageFrame.setVisible(true);
     }
-
+    //Just running the code.
     public static void main(String[] args) {
         Basement game = new Basement();
         game.menu();

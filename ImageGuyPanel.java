@@ -1,6 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-
+//protagonist image panel.
 public class ImageGuyPanel extends JPanel
 {
     String fileName = "guy.png";

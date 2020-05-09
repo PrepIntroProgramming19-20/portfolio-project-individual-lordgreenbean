@@ -17,30 +17,36 @@ class Shopkeep {
     static JFrame sellingFrame;
     static JLabel name=new JLabel("      Astor Sibellius Shoppithan III");
     static JPanel options;
-
+    //The listener for when you choose to buy a book.
     static class bookChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
+            //if there are no book available
             if(bookStock<1){
                 System.out.println("'I have no books for you today.'");
                 System.out.println("'What's this one I'm holding?'");
                 System.out.println("'You cannot look at this book, small child.'");
-            } else if(gold>=bookPrice) {
+            }
+            //if you DO have money.
+            else if(gold>=bookPrice) {
                 gold=gold-bookPrice;
                 Basement.books++;
-                Rat.tech++;
                 System.out.println("'Thank you kindly.'");
                 System.out.println("+1 Book.");
                 bookStock--;
-            } else {System.out.println("'You can't affort that.'");}
+            }
+            //when you DON'T.
+            else {System.out.println("'You can't affort that.'");}
             shopFrame.dispose();
         }
     }
+    //When you choose to buy the key.
     static class keyChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
             if(gold>=keyPrice&&Basement.totRat>=13) {
                 gold = gold-keyPrice;
+                //removes rats from earliest to more recent.
                 for(int i=0;i<13;i++) {
                     System.out.println("The shopkeeper takes "+Basement.rats.get(0).name+".");
                     Basement.rats.remove(0);
@@ -55,6 +61,7 @@ class Shopkeep {
             shopFrame.dispose();
         }
     }
+    //Increasing how much you want to sell.
     static class cartIncrease implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -63,6 +70,7 @@ class Shopkeep {
             cartLabel.setText("        -"+cartVolume+"-");
         }
     }
+    //decreasing how much you want to sell.
     static class cartDecrease implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -71,6 +79,7 @@ class Shopkeep {
             cartLabel.setText("        -"+cartVolume+"-");
         }
     }
+    //confirming how much you want to sell.
     static class confirm implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
@@ -83,13 +92,14 @@ class Shopkeep {
             cartVolume = 0;
         }
     }
+    //GUI that comes up when you want to sell jewels.
     static class jewelChoose implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent event) {
             sellingFrame = new JFrame();
             JLabel prompt = new JLabel("        '...How many can I have?'");
             sellingFrame.add(BorderLayout.NORTH,prompt);
-
+            //buttons for selling more or less.
             JButton more = new JButton(">");
             more.addActionListener(new cartIncrease());
             JButton less = new JButton("<");
@@ -102,11 +112,11 @@ class Shopkeep {
             sellingFrame.add(BorderLayout.WEST, less);
             sellingFrame.add(BorderLayout.EAST, more);
             sellingFrame.add(BorderLayout.SOUTH, confirmPurchase);
-            sellingFrame.setSize(300,100);
+            sellingFrame.setSize(200,100);
             sellingFrame.setVisible(true);
         }
     }
-
+    //The GUI that comes up when you select the shopkeeper.
     static void shop() {
         shopFrame = new JFrame();
         if(present) {
@@ -127,13 +137,15 @@ class Shopkeep {
             shopFrame.add(BorderLayout.SOUTH, name);
             shopFrame.add(BorderLayout.EAST, options);
             shopFrame.setSize(image.nobosh.getIconWidth()+375,image.nobosh.getIconHeight()+50);
+            //when the shopkeeper isn't there.
         } else {
             shopFrame.add(BorderLayout.NORTH,new JLabel("It seems like there's nobody here."));
             shopFrame.setSize(500,100);
         }
         shopFrame.setVisible(true);
     }
-
+    //decides on that day's stock and prices for the different items.
+    //Also decided on whether the man himself is present.
     static void restock() {
         if((20*Math.random())>10.5) {
             present = true;
